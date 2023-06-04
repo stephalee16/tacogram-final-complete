@@ -1,0 +1,24 @@
+<div class="row">
+  <% for post in @posts %>
+    <div class="col-md-3 col-sm-6">
+      <h4>
+        <%# find user who created post %>
+        <% user = User.find_by({ "id" => post["user_id"] }) %>
+        <%# handle any potential bad data where the post is missing a user %>
+        <% if user %>
+          <%= user["first_name"] %>
+        <% else %>
+          anonymous
+        <% end %>
+      </h4>
+
+      <% if post.uploaded_image.attached? %>
+        <img src="<%= url_for(post.uploaded_image) %>" class="img-fluid">
+      <% else %>
+        <img src="<%= post["image"] %>" class="img-fluid">
+      <% end %>
+
+      <p><%= post["body"] %></p>
+    </div>
+  <% end %>
+</div>
